@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RecipyFinder</string>
+    <string name="search_dish">Search dish</string>
+    <string name="search">Search</string>
 </resources>
