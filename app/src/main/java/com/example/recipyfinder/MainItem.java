@@ -2,12 +2,12 @@ package com.example.recipyfinder;
 
 public class MainItem {
     private String mImageUrl;
-    private String mCountryCuisine;
+    private String mMealName;
     private int mMealId;
 
-    public MainItem( String imageUrl, String countryCuisine, int mealId){
+    public MainItem( String imageUrl, String mealName, int mealId){
         mImageUrl = imageUrl;
-        mCountryCuisine = countryCuisine;
+        mMealName = mealName;
         mMealId = mealId;
     }
 
@@ -15,8 +15,8 @@ public class MainItem {
         return mImageUrl;
     }
 
-    public String getmCountryCuisine() {
-        return mCountryCuisine;
+    public String getmMealName() {
+        return mMealName;
     }
 
     public int getmMealId() {
