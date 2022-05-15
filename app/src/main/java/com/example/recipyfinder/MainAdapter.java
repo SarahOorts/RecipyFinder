@@ -17,6 +17,15 @@ import java.util.ArrayList;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder>{
     private Context mContext;
     private ArrayList<MainItem> mMainList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener; //luistert naar click on main activity
+    }
 
     public MainAdapter(Context context, ArrayList<MainItem> mainList){
         mContext = context;
@@ -36,10 +45,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
         String imageUrl = currentItem.getmImageUrl();
         String mealName = currentItem.getmMealName();
-        int mealId = currentItem.getmMealId();
+        String mealCategory = currentItem.getmMealCategory();
 
         holder.mTextViewMealName.setText(mealName);
-        holder.mTextViewMealId.setText("id: " + mealId);
+        holder.mTextViewMealCategory.setText("Meal category: " + mealCategory);
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mImageView);
     }
 
@@ -51,14 +60,25 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     public class MainViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
         public TextView mTextViewMealName;
-        public TextView mTextViewMealId;
+        public TextView mTextViewMealCategory;
 
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.image_view);
             mTextViewMealName = itemView.findViewById(R.id.text_view);
-            mTextViewMealId = itemView.findViewById(R.id.text_view_id);
+            mTextViewMealCategory = itemView.findViewById(R.id.text_view_category);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mListener != null){
+                        int position = getBindingAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

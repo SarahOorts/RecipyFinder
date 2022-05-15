@@ -27,10 +27,10 @@
             android:textSize="20sp"/>
 
         <TextView
-            android:id="@+id/text_view_id"
+            android:id="@+id/text_view_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mealid: " />
+            android:text="Meal category: " />
 
     </LinearLayout>
 
