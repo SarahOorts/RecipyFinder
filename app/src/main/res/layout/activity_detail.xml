@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
+    <TableLayout
+        android:id="@+id/rootlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1" >
 
     <ImageView
         android:id="@+id/image_view"
@@ -12,10 +17,10 @@
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
-        android:id="@+id/text_view_id"
+        android:id="@+id/text_view_servings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mealid: "
+        android:text="Servings: "
         android:textSize="15sp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
@@ -35,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mealcategory: "
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
 
@@ -49,4 +54,27 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/text_view_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingredients: "
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/btnplus"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:id="@+id/btnmin"/>
+
+    </TableLayout>
+</ScrollView>

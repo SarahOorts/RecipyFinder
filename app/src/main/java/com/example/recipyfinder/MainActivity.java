@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements MainAdapter.OnItemClickListener {
     public static final String EXTRA_URL = "imageUrl";
@@ -33,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     public static final String EXTRA_CATEGORY = "mealCategory";
     public static final String EXTRA_ID = "mealId";
     public static final String EXTRA_RECIPE = "recipe";
+    public static final String EXTRA_INGREDIENTS = "ingredients";
+    public static final String EXTRA_SERVINGS = "servings";
 
     private RecyclerView mRecyclerView;
     private MainAdapter mMainAdapter;
@@ -74,17 +73,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         });
     }
 
-    /*private void filter(String text){
-        ArrayList<MainItem> filteredList = new ArrayList<>();
-        for(MainItem item: mMainList){
-            getDishes(text);
-            if(item.getmMealName().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
-            }
-        }
-        mMainAdapter.filterList(filteredList);
-    }*/
-
     private void getDishes(String search){
         String url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
         Log.d("search_url", url);
@@ -101,23 +89,23 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                                 JSONObject mealhit = jsonArray.getJSONObject(i);
                                 JSONObject meal = mealhit.getJSONObject("recipe");
                                 JSONArray cuisineType = meal.getJSONArray("cuisineType");
-                                //JSONObject cuisine = cuisineType.getJSONObject(0);
-                                String area = cuisineType.getString(0);
-                                Log.d("cuisine", area);
+                                String mealCategory = cuisineType.getString(0);
+                                //Log.d("cuisine", mealCategory);
 
-                                JSONArray ingredients = meal.getJSONArray("ingredientLines");
-                                for(int o = 0; o < ingredients.length(); o++){
-                                    String ingr = ingredients.getString(o);
-                                    Log.d("ingredient", ingr);
+                                JSONArray mealIngredients = meal.getJSONArray("ingredients");
+                                ArrayList<String> ingr = new ArrayList<String>();
+                                for(int o = 0; o < mealIngredients.length(); o++){
+                                    String ingrs = mealIngredients.getString(o);
+                                    ingr.add(ingrs);
                                 }
 
                                 String mealName = meal.getString("label");
                                 String imageUrl = meal.getString("image");
                                 int mealId = 0;
                                 String recipe = meal.getString("url");
-                                String mealCategory = area;
+                                String servings = meal.getString("yield");
 
-                                mMainList.add(new MainItem(imageUrl, mealName, mealCategory, mealId, recipe));
+                                mMainList.add(new MainItem(imageUrl, mealName, mealCategory, mealId, recipe, ingr, servings));
                             }
 
                             mMainAdapter = new MainAdapter(MainActivity.this, mMainList);
@@ -148,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         detailIntent.putExtra(EXTRA_CATEGORY, clickedItem.getmMealCategory());
         detailIntent.putExtra(EXTRA_ID, clickedItem.getmMealId());
         detailIntent.putExtra(EXTRA_RECIPE, clickedItem.getmRecipe());
+        detailIntent.putStringArrayListExtra(EXTRA_INGREDIENTS, clickedItem.getmIngredients());
+        detailIntent.putExtra(EXTRA_SERVINGS, clickedItem.getmServings());
 
         startActivity(detailIntent);
     }
