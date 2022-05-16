@@ -27,8 +27,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
-    TextView textViewMealServings;
+    public static final String EXTRA_SERVINGSIZE = "servingsize";
 
+    TextView textViewMealServings;
     ArrayList<Ingredient> recept_array = new ArrayList<>();
     ArrayList<TextView> tv_array = new ArrayList<>();
     int amount_of_people = 1;
@@ -40,24 +41,25 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
+        String recipe = intent.getStringExtra(EXTRA_RECIPE);
         String imageUrl = intent.getStringExtra(EXTRA_URL);
         String mealName = intent.getStringExtra(EXTRA_NAME);
         String mealCategory = intent.getStringExtra(EXTRA_CATEGORY);
         //int mealId = intent.getIntExtra(EXTRA_ID, 0);
-        String recipe = intent.getStringExtra(EXTRA_RECIPE);
         ArrayList<String> mealIngredients = intent.getStringArrayListExtra(EXTRA_INGREDIENTS);
-        double persons = Double.parseDouble(intent.getStringExtra(EXTRA_SERVINGS));
-        int servings = (int)persons;
+        String servings = intent.getStringExtra(EXTRA_SERVINGS);
+        //Log.d("serving", servings);
+        //int servings = (int)persons;
         //Log.d("persons", String.valueOf(servings));
 
         ImageView imageview = findViewById(R.id.image_view);
         TextView textViewMealName = findViewById(R.id.text_view);
         TextView textViewMealCategory = findViewById(R.id.text_view_category);
         textViewMealServings = findViewById(R.id.text_view_servings);
-        TextView textViewRecipe = findViewById(R.id.text_view_recipe);
+        //TextView textViewRecipe = findViewById(R.id.text_view_recipe);
         Button plus_btn = findViewById(R.id.btnplus);
         Button min_btn = findViewById(R.id.btnmin);
-        TextView ingr_tv;
+        Button share_btn = findViewById(R.id.btnshare);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.rootlayout);
 
@@ -65,7 +67,7 @@ public class DetailActivity extends AppCompatActivity {
         textViewMealName.setText(mealName);
         textViewMealCategory.setText("Meal category: " + mealCategory);
         textViewMealServings.setText("Servings: " + servings);
-        textViewRecipe.setText("Recipe: " + recipe);
+        //textViewRecipe.setText("Recipe: " + recipe);
 
 
         JSONArray Ingredients = new JSONArray(mealIngredients);
@@ -78,9 +80,9 @@ public class DetailActivity extends AppCompatActivity {
                 String quantity = number.getString("quantity");
                 String measure = number.getString("measure");
                 String food = number.getString("food");
-                Log.d("ingredient", quantity);
-                Log.d("ingredient", measure);
-                Log.d("ingredient", food);
+                //Log.d("ingredient", quantity);
+                //Log.d("ingredient", measure);
+                //Log.d("ingredient", food);
                 recept_array.add(new Ingredient(quantity, measure, food, servings));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -88,9 +90,12 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         for(int i = 0; i < recept_array.size(); i++){
-            TextView tv = new TextView(this); // maak een nieuwe (lege) TextView aan
-            layout.addView(tv, i+6);  // i+3 is de volgorde van de TextView in de UI (onder het aantal personen)
+            TextView tv = new TextView(this);
+            layout.addView(tv, i+6);
             tv_array.add(tv);
+            /*DetailActivity.tv_array.add(onClick)
+            android:onClick="onClick"
+            android:clickable="true"*/
 
             final Ingredient current_ingredient = recept_array.get(i);
         }
@@ -113,6 +118,16 @@ public class DetailActivity extends AppCompatActivity {
                 DetailActivity.this.update_ui();
             }
         });
+
+        share_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, recipe);
+                startActivity(Intent.createChooser(shareIntent, "Share recipy using"));
+            }
+        });
     }
 
     void update_ui(){
@@ -120,9 +135,22 @@ public class DetailActivity extends AppCompatActivity {
         textViewMealServings.setText(persons);
 
         for (int i = 0; i<recept_array.size(); i++) {
-            TextView tv = tv_array.get(i);  // pak de i-de TextView
-            Ingredient ing = recept_array.get(i); // pak het i-de ingrediënt
-            tv.setText(ing.getquantity(amount_of_people));  // converteer het ingrediënt naar text
+            TextView tv = tv_array.get(i);
+            Ingredient ing = recept_array.get(i);
+            tv.setText(ing.getquantity(amount_of_people));
+            String servingsize = ing.getquantity(amount_of_people);
+            Log.d("tv", String.valueOf(tv_array.get(i)));
+            Log.d("ing", String.valueOf(ing.getquantity(amount_of_people)));
+
+            tv_array.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent ingredientIntent = new Intent(DetailActivity.this, IngredientActivity.class);
+                    ingredientIntent.putExtra(EXTRA_SERVINGSIZE, servingsize);
+
+                    startActivity(ingredientIntent);
+                }
+            });
         }
     }
 }
