@@ -2,6 +2,8 @@ package com.example.recipyfinder;
 
 import static com.example.recipyfinder.MainActivity.EXTRA_CATEGORY;
 import static com.example.recipyfinder.MainActivity.EXTRA_INGREDIENTS;
+import static com.example.recipyfinder.MainActivity.EXTRA_LIST;
+import static com.example.recipyfinder.MainActivity.EXTRA_POS;
 import static com.example.recipyfinder.MainActivity.EXTRA_RECIPE;
 import static com.example.recipyfinder.MainActivity.EXTRA_SERVINGS;
 import static com.example.recipyfinder.MainActivity.EXTRA_URL;
@@ -20,20 +22,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_SERVINGSIZE = "servingsize";
-
+    //private ArrayList<MainItem> mMainList;
     TextView textViewMealServings;
     ArrayList<Ingredient> recept_array = new ArrayList<>();
     ArrayList<TextView> tv_array = new ArrayList<>();
     int amount_of_people = 1;
-
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -45,18 +48,15 @@ public class DetailActivity extends AppCompatActivity {
         String imageUrl = intent.getStringExtra(EXTRA_URL);
         String mealName = intent.getStringExtra(EXTRA_NAME);
         String mealCategory = intent.getStringExtra(EXTRA_CATEGORY);
-        //int mealId = intent.getIntExtra(EXTRA_ID, 0);
+        ArrayList<String> dinner = intent.getStringArrayListExtra(EXTRA_LIST);
         ArrayList<String> mealIngredients = intent.getStringArrayListExtra(EXTRA_INGREDIENTS);
         String servings = intent.getStringExtra(EXTRA_SERVINGS);
-        //Log.d("serving", servings);
-        //int servings = (int)persons;
-        //Log.d("persons", String.valueOf(servings));
+        String pos = intent.getStringExtra(EXTRA_POS);
 
         ImageView imageview = findViewById(R.id.image_view);
         TextView textViewMealName = findViewById(R.id.text_view);
         TextView textViewMealCategory = findViewById(R.id.text_view_category);
         textViewMealServings = findViewById(R.id.text_view_servings);
-        //TextView textViewRecipe = findViewById(R.id.text_view_recipe);
         Button plus_btn = findViewById(R.id.btnplus);
         Button min_btn = findViewById(R.id.btnmin);
         Button share_btn = findViewById(R.id.btnshare);
@@ -67,35 +67,39 @@ public class DetailActivity extends AppCompatActivity {
         textViewMealName.setText(mealName);
         textViewMealCategory.setText("Meal category: " + mealCategory);
         textViewMealServings.setText("Servings: " + servings);
-        //textViewRecipe.setText("Recipe: " + recipe);
 
-
-        JSONArray Ingredients = new JSONArray(mealIngredients);
-        //Log.d("ingredient", String.valueOf(Ingredients));
-        for(int o = 0; o < Ingredients.length(); o++){
+        for(int o = 0; o < mealIngredients.size(); o++){
             String ingr = null;
             try {
-                ingr = Ingredients.getString(o);
+                ingr = mealIngredients.get(o);
                 JSONObject number = new JSONObject(ingr);
                 String quantity = number.getString("quantity");
                 String measure = number.getString("measure");
                 String food = number.getString("food");
-                //Log.d("ingredient", quantity);
-                //Log.d("ingredient", measure);
-                //Log.d("ingredient", food);
                 recept_array.add(new Ingredient(quantity, measure, food, servings));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
+        for (int i = 0; i< dinner.size(); i++) {
+            String smth = dinner.get(i);
+            String[] smtharr = smth.split(",", 0);
+            Log.d("list", String.valueOf(smtharr[2]));
+            for(int o = 0; o < smtharr.length; o++){
+                String s = smtharr[o];
+                Log.d("equal", String.valueOf(s.compareTo(pos)));
+                if(s.equalsIgnoreCase(pos)){
+                    Log.d("found", pos);
+                }
+            }
+            Log.d("pos", pos);
+        }
+
         for(int i = 0; i < recept_array.size(); i++){
             TextView tv = new TextView(this);
-            layout.addView(tv, i+6);
+            layout.addView(tv, i);
             tv_array.add(tv);
-            /*DetailActivity.tv_array.add(onClick)
-            android:onClick="onClick"
-            android:clickable="true"*/
 
             final Ingredient current_ingredient = recept_array.get(i);
         }
@@ -124,8 +128,16 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view){
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, recipe);
-                startActivity(Intent.createChooser(shareIntent, "Share recipy using"));
+                StringBuilder list = new StringBuilder();
+
+                for (int i = 0; i< recept_array.size(); i++) {
+                    Ingredient ingredients = recept_array.get(i);
+                    String in = ingredients.getquantity(amount_of_people) + ", ";
+                    list.append(in);
+                }
+                shareIntent.putExtra(Intent.EXTRA_TEXT, list.toString());
+                Log.d("fo", list.toString());
+                startActivity(Intent.createChooser(shareIntent, "Share ingredients using"));
             }
         });
     }
@@ -134,13 +146,13 @@ public class DetailActivity extends AppCompatActivity {
         String persons = String.format("Servings: %d", amount_of_people);
         textViewMealServings.setText(persons);
 
-        for (int i = 0; i<recept_array.size(); i++) {
-            TextView tv = tv_array.get(i);
+        for (int i = 0; i< recept_array.size(); i++) {
+            tv = tv_array.get(i);
             Ingredient ing = recept_array.get(i);
             tv.setText(ing.getquantity(amount_of_people));
             String servingsize = ing.getquantity(amount_of_people);
-            Log.d("tv", String.valueOf(tv_array.get(i)));
-            Log.d("ing", String.valueOf(ing.getquantity(amount_of_people)));
+            //Log.d("tv", String.valueOf(tv_array.get(i)));
+            //Log.d("ing", String.valueOf(ing.getquantity(amount_of_people)));
 
             tv_array.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override

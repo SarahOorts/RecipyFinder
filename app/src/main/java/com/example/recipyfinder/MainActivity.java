@@ -28,10 +28,11 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     public static final String EXTRA_URL = "imageUrl";
     public static final String EXTRA_NAME = "mealName";
     public static final String EXTRA_CATEGORY = "mealCategory";
-    public static final String EXTRA_ID = "mealId";
     public static final String EXTRA_RECIPE = "recipe";
     public static final String EXTRA_INGREDIENTS = "ingredients";
     public static final String EXTRA_SERVINGS = "servings";
+    public static final String EXTRA_LIST = "list";
+    public static final String EXTRA_POS = "position";
 
     private RecyclerView mRecyclerView;
     private MainAdapter mMainAdapter;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                                 String recipe = meal.getString("url");
                                 String servings = meal.getString("yield");
 
-                                mMainList.add(new MainItem(imageUrl, mealName, mealCategory, mealId, recipe, ingr, servings));
+                                mMainList.add(new MainItem(imageUrl, mealName, mealCategory, recipe, ingr, servings));
                             }
 
                             mMainAdapter = new MainAdapter(MainActivity.this, mMainList);
@@ -130,14 +131,20 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
         MainItem clickedItem = mMainList.get(position);
+        Log.d("click", String.valueOf(clickedItem));
+        Log.d("mainlist", String.valueOf(mMainList));
+        ArrayList<String> recipe = new ArrayList<>();
+        recipe.add(String.valueOf(mMainList));
+        String pos = clickedItem.toString();
 
         detailIntent.putExtra(EXTRA_URL, clickedItem.getmImageUrl());
         detailIntent.putExtra(EXTRA_NAME, clickedItem.getmMealName());
         detailIntent.putExtra(EXTRA_CATEGORY, clickedItem.getmMealCategory());
-        detailIntent.putExtra(EXTRA_ID, clickedItem.getmMealId());
         detailIntent.putExtra(EXTRA_RECIPE, clickedItem.getmRecipe());
         detailIntent.putStringArrayListExtra(EXTRA_INGREDIENTS, clickedItem.getmIngredients());
         detailIntent.putExtra(EXTRA_SERVINGS, clickedItem.getmServings());
+        detailIntent.putStringArrayListExtra(EXTRA_LIST, recipe);
+        detailIntent.putExtra(EXTRA_POS, pos);
 
         startActivity(detailIntent);
     }

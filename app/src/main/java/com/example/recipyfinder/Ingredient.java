@@ -32,4 +32,6 @@ public class Ingredient {
     public String getFood() {
         return this.food;
     }
+
+
 }

@@ -5,7 +5,6 @@
     android:fillViewport="true">
 
     <TableLayout
-        android:id="@+id/rootlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchColumns="1" >
@@ -47,18 +46,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share recipy"
+        android:text="Share ingredients"
         android:id="@+id/btnshare"/>
-
-    <!--<TextView
-        android:id="@+id/text_view_recipe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recipe: "
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>-->
 
     <TextView
         android:id="@+id/text_view_ingredients"
@@ -66,9 +55,20 @@
         android:layout_height="wrap_content"
         android:text="Ingredients: "
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/rootlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="20sp"
+        android:orientation="vertical" >
+
+        </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
