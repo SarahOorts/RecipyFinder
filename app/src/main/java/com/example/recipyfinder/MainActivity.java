@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
         MainItem clickedItem = mMainList.get(position);
-        Log.d("click", String.valueOf(clickedItem));
+        Log.d("adapter", String.valueOf(mMainAdapter));
         Log.d("mainlist", String.valueOf(mMainList));
         ArrayList<String> recipe = new ArrayList<>();
         recipe.add(String.valueOf(mMainList));

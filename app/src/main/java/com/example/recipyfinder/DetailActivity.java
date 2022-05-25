@@ -84,16 +84,18 @@ public class DetailActivity extends AppCompatActivity {
 
         for (int i = 0; i< dinner.size(); i++) {
             String smth = dinner.get(i);
-            String[] smtharr = smth.split(",", 0);
-            Log.d("list", String.valueOf(smtharr[2]));
+            String[] smtharr = smth.split(", ", 0);
+            //Log.d("list", String.valueOf(smtharr[2]));
             for(int o = 0; o < smtharr.length; o++){
-                String s = smtharr[o];
-                Log.d("equal", String.valueOf(s.compareTo(pos)));
-                if(s.equalsIgnoreCase(pos)){
-                    Log.d("found", pos);
+                String s = String.format("%s", smtharr[o]);
+                String p = String.format("%s", pos);
+                //Log.d("equal", String.valueOf(s.equals(p)));
+                if(s.equals(p)){
+                    Log.d("found", p);
+                    /*String meal = p.getmMealName();
+                    Log.d("rlist", meal);*/
                 }
             }
-            Log.d("pos", pos);
         }
 
         for(int i = 0; i < recept_array.size(); i++){
