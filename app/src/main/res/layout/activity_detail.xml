@@ -12,17 +12,8 @@
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:src="@mipmap/ic_launcher"/>
-
-    <TextView
-        android:id="@+id/text_view_servings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Servings: "
-        android:textSize="15sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
 
     <TextView
         android:id="@+id/text_view"
@@ -47,7 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Share ingredients"
-        android:id="@+id/btnshare"/>
+        android:id="@+id/btnshare"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"/>
 
     <TextView
         android:id="@+id/text_view_ingredients"
@@ -68,19 +62,34 @@
         android:textSize="20sp"
         android:orientation="vertical" >
 
-        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_view_servings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Servings: "
+        android:textSize="15sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
-        android:id="@+id/btnplus"/>
+        android:id="@+id/btnplus"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
-        android:id="@+id/btnmin"/>
+        android:id="@+id/btnmin"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
 
     </TableLayout>
 </ScrollView>
