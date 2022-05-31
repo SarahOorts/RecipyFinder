@@ -29,7 +29,6 @@ public class MealActivity extends AppCompatActivity implements CuisineAdapter.On
         cCuisineList.add(new CuisineItem("Dinner"));
         cCuisineList.add(new CuisineItem("Lunch"));
         cCuisineList.add(new CuisineItem("Snack"));
-        cCuisineList.add(new CuisineItem("Tea time"));
 
         cCuisineAdapter = new CuisineAdapter(MealActivity.this, cCuisineList);
         cRecyclerView.setAdapter(cCuisineAdapter);
@@ -40,7 +39,7 @@ public class MealActivity extends AppCompatActivity implements CuisineAdapter.On
     public void onItemClick(int position) {
         Intent mealIntent = new Intent(MealActivity.this, MainActivity.class);
         CuisineItem clickedItem = cCuisineList.get(position);
-        mealIntent.putExtra(EXTRA_MEAL, clickedItem.getcType());
+        mealIntent.putExtra(EXTRA_MEAL, clickedItem.getType());
         startActivity(mealIntent);
     }
 }

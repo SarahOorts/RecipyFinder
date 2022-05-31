@@ -54,7 +54,7 @@ public class CuisineActivity extends AppCompatActivity implements CuisineAdapter
     public void onItemClick(int position) {
         Intent cuisineIntent = new Intent(CuisineActivity.this, MainActivity.class);
         CuisineItem clickedItem = cCuisineList.get(position);
-        cuisineIntent.putExtra(EXTRA_TYPE, clickedItem.getcType());
+        cuisineIntent.putExtra(EXTRA_TYPE, clickedItem.getType());
         startActivity(cuisineIntent);
     }
 }
