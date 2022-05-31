@@ -2,9 +2,6 @@ package com.example.recipyfinder;
 
 import static com.example.recipyfinder.MainActivity.EXTRA_CATEGORY;
 import static com.example.recipyfinder.MainActivity.EXTRA_INGREDIENTS;
-import static com.example.recipyfinder.MainActivity.EXTRA_LIST;
-import static com.example.recipyfinder.MainActivity.EXTRA_POS;
-import static com.example.recipyfinder.MainActivity.EXTRA_RECIPE;
 import static com.example.recipyfinder.MainActivity.EXTRA_SERVINGS;
 import static com.example.recipyfinder.MainActivity.EXTRA_URL;
 import static com.example.recipyfinder.MainActivity.EXTRA_NAME;
@@ -26,12 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity{
     public static final String EXTRA_SERVINGSIZE = "servingsize";
-    //private ArrayList<MainItem> mMainList;
     TextView textViewMealServings;
     ArrayList<Ingredient> recept_array = new ArrayList<>();
     ArrayList<TextView> tv_array = new ArrayList<>();
@@ -44,14 +38,12 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
-        String recipe = intent.getStringExtra(EXTRA_RECIPE);
         String imageUrl = intent.getStringExtra(EXTRA_URL);
         String mealName = intent.getStringExtra(EXTRA_NAME);
         String mealCategory = intent.getStringExtra(EXTRA_CATEGORY);
-        ArrayList<String> dinner = intent.getStringArrayListExtra(EXTRA_LIST);
+        //ArrayList<String> dinner = intent.getStringArrayListExtra(EXTRA_LIST);
         ArrayList<String> mealIngredients = intent.getStringArrayListExtra(EXTRA_INGREDIENTS);
         String servings = intent.getStringExtra(EXTRA_SERVINGS);
-        String pos = intent.getStringExtra(EXTRA_POS);
 
         ImageView imageview = findViewById(R.id.image_view);
         TextView textViewMealName = findViewById(R.id.text_view);
@@ -82,27 +74,10 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-        for (int i = 0; i< dinner.size(); i++) {
-            String smth = dinner.get(i);
-            String[] smtharr = smth.split(", ", 0);
-            //Log.d("list", String.valueOf(smtharr[2]));
-            for(int o = 0; o < smtharr.length; o++){
-                String s = String.format("%s", smtharr[o]);
-                String p = String.format("%s", pos);
-                //Log.d("equal", String.valueOf(s.equals(p)));
-                if(s.equals(p)){
-                    Log.d("found", p);
-                    /*String meal = p.getmMealName();
-                    Log.d("rlist", meal);*/
-                }
-            }
-        }
-
         for(int i = 0; i < recept_array.size(); i++){
             TextView tv = new TextView(this);
             layout.addView(tv, i);
             tv_array.add(tv);
-
             final Ingredient current_ingredient = recept_array.get(i);
         }
 
@@ -138,7 +113,6 @@ public class DetailActivity extends AppCompatActivity {
                     list.append(in);
                 }
                 shareIntent.putExtra(Intent.EXTRA_TEXT, list.toString());
-                Log.d("fo", list.toString());
                 startActivity(Intent.createChooser(shareIntent, "Share ingredients using"));
             }
         });
@@ -153,15 +127,11 @@ public class DetailActivity extends AppCompatActivity {
             Ingredient ing = recept_array.get(i);
             tv.setText(ing.getquantity(amount_of_people));
             String servingsize = ing.getquantity(amount_of_people);
-            //Log.d("tv", String.valueOf(tv_array.get(i)));
-            //Log.d("ing", String.valueOf(ing.getquantity(amount_of_people)));
-
             tv_array.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent ingredientIntent = new Intent(DetailActivity.this, IngredientActivity.class);
                     ingredientIntent.putExtra(EXTRA_SERVINGSIZE, servingsize);
-
                     startActivity(ingredientIntent);
                 }
             });

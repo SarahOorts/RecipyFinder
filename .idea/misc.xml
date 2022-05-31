@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/activity_cuisine.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/activity_cuisinemain.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/activity_detail.xml" value="0.1" />
         <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/activity_ingredient.xml" value="0.28125" />
         <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/cuisine_item.xml" value="0.17857142857142858" />
         <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/fragment_nav.xml" value="0.3671875" />
         <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/fragment_search.xml" value="0.3671875" />
         <entry key="..\:/Users/Sarah Oorts/Documents/Thomas more/IMD/Jaar 2/dev adv mobile oef/RecipyFinder/app/src/main/res/layout/main_item.xml" value="0.1" />

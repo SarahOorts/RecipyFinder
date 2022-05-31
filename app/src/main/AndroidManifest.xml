@@ -35,6 +35,20 @@
                 <action android:name="android.intent.action.INGREDIENT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CuisineActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.CUISINE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CuisineMainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.CUISINEMAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

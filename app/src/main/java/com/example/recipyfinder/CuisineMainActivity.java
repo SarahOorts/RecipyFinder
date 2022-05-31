@@ -1,8 +1,6 @@
 package com.example.recipyfinder;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.example.recipyfinder.CuisineActivity.EXTRA_TYPE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,13 +26,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MainAdapter.OnItemClickListener {
+public class CuisineMainActivity extends AppCompatActivity implements MainAdapter.OnItemClickListener{
     public static final String EXTRA_URL = "imageUrl";
     public static final String EXTRA_NAME = "mealName";
     public static final String EXTRA_CATEGORY = "mealCategory";
-    public static final String EXTRA_RECIPE = "recipe";
     public static final String EXTRA_INGREDIENTS = "ingredients";
     public static final String EXTRA_SERVINGS = "servings";
+    public static final String EXTRA_RECIPE = "recipe";
 
     private RecyclerView mRecyclerView;
     private MainAdapter mMainAdapter;
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         mMainList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(this);
 
+        Intent intent = getIntent();
+        String cuisineType = intent.getStringExtra(EXTRA_TYPE);
+
         Button mSearchbtn = findViewById(R.id.search_btn);
         EditText searchfield = findViewById(R.id.input);
         Button cuisine = findViewById(R.id.cuisine_btn);
@@ -56,10 +61,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         Button weather = findViewById(R.id.weather_btn);
         Button meal = findViewById(R.id.meal_btn);
 
-
         if(searchfield.getText().toString().matches("")){
             String beef = "beef";
-            getDishes(beef);
+            getDishes(beef, cuisineType);
         }
 
         mSearchbtn.setOnClickListener(new View.OnClickListener() {
@@ -72,14 +76,15 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                 }
                 Log.d("search", searchterm);
 
-                getDishes(searchterm);
+                getDishes(searchterm, cuisineType);
             }
         });
 
         cuisine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cuisineIntent = new Intent(MainActivity.this, CuisineActivity.class);
+                Intent cuisineIntent = new Intent(CuisineMainActivity.this, CuisineActivity.class);
+                Log.d("cuisine", "send to cuisine");
                 startActivity(cuisineIntent);
             }
         });
@@ -87,14 +92,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         searchAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent searchIntent = new Intent(MainActivity.this, MainActivity.class);
+                Intent searchIntent = new Intent(CuisineMainActivity.this, MainActivity.class);
                 startActivity(searchIntent);
             }
         });
     }
 
-    private void getDishes(String search){
-        String url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+    private void getDishes(String search, String type){
+        String url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&cuisineType=" + type;
         Log.d("search_url", url);
         mMainList.clear();
 
@@ -127,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                                 mMainList.add(new MainItem(imageUrl, mealName, mealCategory, recipe, ingr, servings));
                             }
 
-                            mMainAdapter = new MainAdapter(MainActivity.this, mMainList);
+                            mMainAdapter = new MainAdapter(CuisineMainActivity.this, mMainList);
                             mRecyclerView.setAdapter(mMainAdapter);
-                            mMainAdapter.setOnItemClickListener(MainActivity.this);
+                            mMainAdapter.setOnItemClickListener(CuisineMainActivity.this);
 
                         } catch(JSONException e) {
                             e.printStackTrace();
