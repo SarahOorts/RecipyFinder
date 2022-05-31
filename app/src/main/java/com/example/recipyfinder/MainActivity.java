@@ -1,5 +1,8 @@
 package com.example.recipyfinder;
 
+import static com.example.recipyfinder.CuisineActivity.EXTRA_TYPE;
+import static com.example.recipyfinder.MealActivity.EXTRA_MEAL;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     private MainAdapter mMainAdapter;
     private ArrayList<MainItem> mMainList;
     private RequestQueue mRequestQueue;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +53,21 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         mMainList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(this);
 
+        Intent intent = getIntent();
+        String cuisineType = intent.getStringExtra(EXTRA_TYPE);
+        String mealType = intent.getStringExtra(EXTRA_MEAL);
+
         Button mSearchbtn = findViewById(R.id.search_btn);
         EditText searchfield = findViewById(R.id.input);
         Button cuisine = findViewById(R.id.cuisine_btn);
         Button searchAll = findViewById(R.id.searchall_btn);
         Button weather = findViewById(R.id.weather_btn);
-        Button meal = findViewById(R.id.meal_btn);
+        Button mealtype = findViewById(R.id.meal_btn);
 
 
         if(searchfield.getText().toString().matches("")){
             String beef = "beef";
-            getDishes(beef);
+            getDishes(beef, cuisineType, mealType);
         }
 
         mSearchbtn.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                 }
                 Log.d("search", searchterm);
 
-                getDishes(searchterm);
+                getDishes(searchterm, cuisineType, mealType);
             }
         });
 
@@ -91,10 +99,34 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                 startActivity(searchIntent);
             }
         });
+
+        mealtype.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mealIntent = new Intent(MainActivity.this, MealActivity.class);
+                startActivity(mealIntent);
+            }
+        });
     }
 
-    private void getDishes(String search){
-        String url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+    private boolean isNullEmpty(String str) {
+        if(str == null){
+            return true;
+        }else if (str.isEmpty()){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    private void getDishes(String search, String cuisineType, String mealType){
+        if(isNullEmpty(cuisineType) && !isNullEmpty(mealType)) {
+            url = "https://api.edamam.com/api/recipes/v2?type=public&q=" + search + "&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&mealType=" + mealType;
+        } else if(isNullEmpty(mealType) && !isNullEmpty(cuisineType)) {
+            url = "https://api.edamam.com/api/recipes/v2?type=public&q=" + search + "&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&cuisineType=" + cuisineType;
+        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType)){
+            url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+        }
         Log.d("search_url", url);
         mMainList.clear();
 

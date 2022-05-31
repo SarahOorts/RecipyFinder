@@ -43,10 +43,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CuisineMainActivity"
+            android:name=".MealActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.CUISINEMAIN" />
+                <action android:name="android.intent.action.MEAL" />
             </intent-filter>
         </activity>
     </application>

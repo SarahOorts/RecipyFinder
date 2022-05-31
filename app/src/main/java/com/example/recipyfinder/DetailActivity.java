@@ -41,7 +41,6 @@ public class DetailActivity extends AppCompatActivity{
         String imageUrl = intent.getStringExtra(EXTRA_URL);
         String mealName = intent.getStringExtra(EXTRA_NAME);
         String mealCategory = intent.getStringExtra(EXTRA_CATEGORY);
-        //ArrayList<String> dinner = intent.getStringArrayListExtra(EXTRA_LIST);
         ArrayList<String> mealIngredients = intent.getStringArrayListExtra(EXTRA_INGREDIENTS);
         String servings = intent.getStringExtra(EXTRA_SERVINGS);
 
