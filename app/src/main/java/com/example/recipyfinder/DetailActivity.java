@@ -1,8 +1,10 @@
 package com.example.recipyfinder;
 
+import static com.example.recipyfinder.MainActivity.EXTRA_CAL;
 import static com.example.recipyfinder.MainActivity.EXTRA_CATEGORY;
 import static com.example.recipyfinder.MainActivity.EXTRA_INGREDIENTS;
 import static com.example.recipyfinder.MainActivity.EXTRA_SERVINGS;
+import static com.example.recipyfinder.MainActivity.EXTRA_TIME;
 import static com.example.recipyfinder.MainActivity.EXTRA_URL;
 import static com.example.recipyfinder.MainActivity.EXTRA_NAME;
 
@@ -27,10 +29,13 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity{
     public static final String EXTRA_SERVINGSIZE = "servingsize";
     TextView textViewMealServings;
+    TextView textViewcal;
     ArrayList<Ingredient> recept_array = new ArrayList<>();
     ArrayList<TextView> tv_array = new ArrayList<>();
     int amount_of_people = 1;
     TextView tv;
+    String cal;
+    String servings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -42,12 +47,16 @@ public class DetailActivity extends AppCompatActivity{
         String mealName = intent.getStringExtra(EXTRA_NAME);
         String mealCategory = intent.getStringExtra(EXTRA_CATEGORY);
         ArrayList<String> mealIngredients = intent.getStringArrayListExtra(EXTRA_INGREDIENTS);
-        String servings = intent.getStringExtra(EXTRA_SERVINGS);
+        String time = intent.getStringExtra(EXTRA_TIME);
+        servings = intent.getStringExtra(EXTRA_SERVINGS);
+        cal = intent.getStringExtra(EXTRA_CAL);
 
         ImageView imageview = findViewById(R.id.image_view);
         TextView textViewMealName = findViewById(R.id.text_view);
         TextView textViewMealCategory = findViewById(R.id.text_view_category);
         textViewMealServings = findViewById(R.id.text_view_servings);
+        textViewcal = findViewById(R.id.text_view_calories);
+        TextView textViewt = findViewById(R.id.text_view_time);
         Button plus_btn = findViewById(R.id.btnplus);
         Button min_btn = findViewById(R.id.btnmin);
         Button share_btn = findViewById(R.id.btnshare);
@@ -58,6 +67,8 @@ public class DetailActivity extends AppCompatActivity{
         textViewMealName.setText(mealName);
         textViewMealCategory.setText("Meal category: " + mealCategory);
         textViewMealServings.setText("Servings: " + servings);
+        textViewt.setText("Time: " + time);
+        textViewcal.setText(Ingredient.getCalories(cal, servings, amount_of_people));
 
         for(int o = 0; o < mealIngredients.size(); o++){
             String ingr = null;
@@ -120,6 +131,7 @@ public class DetailActivity extends AppCompatActivity{
     void update_ui(){
         String persons = String.format("Servings: %d", amount_of_people);
         textViewMealServings.setText(persons);
+        textViewcal.setText(Ingredient.getCalories(cal, servings, amount_of_people));
 
         for (int i = 0; i< recept_array.size(); i++) {
             tv = tv_array.get(i);

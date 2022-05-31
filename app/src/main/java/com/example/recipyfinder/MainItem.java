@@ -11,17 +11,18 @@ public class MainItem {
     private String mRecipe;
     private ArrayList<String> mIngredients;
     private String mServings;
+    private String mCal;
+    private String mTime;
 
-    public MainItem(String imageUrl, String mealName, String mealCategory, String recipe, ArrayList<String> ingredients, String servings){
+    public MainItem(String imageUrl, String mealName, String mealCategory, String recipe, ArrayList<String> ingredients, String servings, String cal, String time){
         mImageUrl = imageUrl;
         mMealName = mealName;
         mMealCategory = mealCategory;
         mRecipe = recipe;
         mIngredients = ingredients;
         mServings = servings;
-    }
-
-    public MainItem(String imageUrl, String mealName, String mealCategory, String recipe, ArrayList<String> ingr) {
+        mCal = cal;
+        mTime = time;
     }
 
     public String getmImageUrl() {
@@ -39,4 +40,8 @@ public class MainItem {
     public ArrayList<String> getmIngredients(){return mIngredients;}
 
     public String getmServings(){return mServings;}
+
+    public String getmCal(){return mCal;}
+
+    public String getmTime(){return mTime;}
 }

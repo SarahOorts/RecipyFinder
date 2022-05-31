@@ -26,12 +26,20 @@ public class Ingredient {
     }
 
     public String getMeasure() {
-        return this.measure;
+        if(measure.equals("<unit>") || measure.equals("null")){
+            return "";
+        } else{
+            return this.measure;
+        }
     }
 
     public String getFood() {
         return this.food;
     }
 
-
+    public static String getCalories(String calories, String servings, int amount_of_people){
+        double calo = Double.parseDouble(calories)/ Double.parseDouble(servings);
+        double cal = calo * (double) amount_of_people;
+        return String.format("%s %,.2f", "Calories: ", cal);
+    }
 }

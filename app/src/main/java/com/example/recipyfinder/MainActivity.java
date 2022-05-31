@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     public static final String EXTRA_CATEGORY = "mealCategory";
     public static final String EXTRA_RECIPE = "recipe";
     public static final String EXTRA_INGREDIENTS = "ingredients";
+    public static final String EXTRA_CAL = "calories";
+    public static final String EXTRA_TIME = "time";
     public static final String EXTRA_SERVINGS = "servings";
 
     private RecyclerView mRecyclerView;
@@ -142,9 +144,11 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                                 JSONObject meal = mealhit.getJSONObject("recipe");
                                 JSONArray cuisineType = meal.getJSONArray("cuisineType");
                                 String mealCategory = cuisineType.getString(0);
+                                String cal = meal.getString("calories");
+                                String t = meal.getString("totalTime");
 
                                 JSONArray mealIngredients = meal.getJSONArray("ingredients");
-                                ArrayList<String> ingr = new ArrayList<String>();
+                                ArrayList<String> ingr = new ArrayList<>();
                                 for(int o = 0; o < mealIngredients.length(); o++){
                                     String ingrs = mealIngredients.getString(o);
                                     ingr.add(ingrs);
@@ -156,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                                 String recipe = meal.getString("url");
                                 String servings = meal.getString("yield");
 
-                                mMainList.add(new MainItem(imageUrl, mealName, mealCategory, recipe, ingr, servings));
+                                mMainList.add(new MainItem(imageUrl, mealName, mealCategory, recipe, ingr, servings, cal, t));
                             }
 
                             mMainAdapter = new MainAdapter(MainActivity.this, mMainList);
@@ -187,6 +191,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         detailIntent.putExtra(EXTRA_CATEGORY, clickedItem.getmMealCategory());
         detailIntent.putExtra(EXTRA_RECIPE, clickedItem.getmRecipe());
         detailIntent.putStringArrayListExtra(EXTRA_INGREDIENTS, clickedItem.getmIngredients());
+        detailIntent.putExtra(EXTRA_CAL, clickedItem.getmCal());
+        detailIntent.putExtra(EXTRA_TIME, clickedItem.getmTime());
         detailIntent.putExtra(EXTRA_SERVINGS, clickedItem.getmServings());
 
         startActivity(detailIntent);

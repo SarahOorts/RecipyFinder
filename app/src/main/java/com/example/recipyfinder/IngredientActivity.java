@@ -64,9 +64,7 @@ public class IngredientActivity extends AppCompatActivity {
         StringBuilder list = new StringBuilder();
         for(int o = 0; o < surl.length; o++){
             String in = surl[o] + "%20";
-            if(!in.equals("<unit>%20")){
-                list.append(in);
-            }
+            list.append(in);
             //Log.d("in", in);
         }
         String sterm = list.toString();
@@ -81,7 +79,7 @@ public class IngredientActivity extends AppCompatActivity {
                         System.out.println(response);
                         try{
                             JSONObject jsonObject = response.getJSONObject("totalNutrientsKCal");
-                            Log.d("nutr", String.valueOf(jsonObject));
+                            //Log.d("nutr", String.valueOf(jsonObject));
 
                             JSONObject kcal = jsonObject.getJSONObject("ENERC_KCAL");
                             String nutenergy = String.format("Energy: " + kcal.getString("quantity") + " kcal");
