@@ -4,92 +4,96 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:stretchColumns="1" >
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@mipmap/ic_launcher"/>
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MealName"
-        android:textColor="@android:color/black"
-        android:textSize="40sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="MealName"
+            android:textColor="@android:color/black"
+            android:textSize="40sp" />
 
-    <TextView
-        android:id="@+id/text_view_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mealcategory: "
-        android:textSize="20sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        <TextView
+            android:id="@+id/text_view_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Mealcategory: "
+            android:textSize="20sp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share ingredients"
-        android:id="@+id/btnshare"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/btnshare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Share ingredients" />
 
-    <TextView
-        android:id="@+id/text_view_ingredients"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ingredients: "
-        android:textColor="@android:color/black"
-        android:textSize="22sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        <TextView
+            android:id="@+id/text_view_ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Ingredients: "
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
 
-    <LinearLayout
-        android:id="@+id/rootlayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="20sp"
-        android:orientation="vertical" >
+        <LinearLayout
+            android:id="@+id/rootlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_view_servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Servings: "
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnplus"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/btnmin"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="-" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/text_view_servings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Servings: "
-        android:textSize="15sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:id="@+id/btnplus"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:id="@+id/btnmin"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp" />
-
-    </TableLayout>
 </ScrollView>
