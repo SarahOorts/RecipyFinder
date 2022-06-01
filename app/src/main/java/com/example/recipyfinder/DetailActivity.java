@@ -1,13 +1,5 @@
 package com.example.recipyfinder;
 
-import static com.example.recipyfinder.MainActivity.EXTRA_CAL;
-import static com.example.recipyfinder.MainActivity.EXTRA_CATEGORY;
-import static com.example.recipyfinder.MainActivity.EXTRA_INGREDIENTS;
-import static com.example.recipyfinder.MainActivity.EXTRA_SERVINGS;
-import static com.example.recipyfinder.MainActivity.EXTRA_TIME;
-import static com.example.recipyfinder.MainActivity.EXTRA_URL;
-import static com.example.recipyfinder.MainActivity.EXTRA_NAME;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,13 +35,15 @@ public class DetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
-        String imageUrl = intent.getStringExtra(EXTRA_URL);
-        String mealName = intent.getStringExtra(EXTRA_NAME);
-        String mealCategory = intent.getStringExtra(EXTRA_CATEGORY);
-        ArrayList<String> mealIngredients = intent.getStringArrayListExtra(EXTRA_INGREDIENTS);
-        String time = intent.getStringExtra(EXTRA_TIME);
-        servings = intent.getStringExtra(EXTRA_SERVINGS);
-        cal = intent.getStringExtra(EXTRA_CAL);
+        int id = intent.getIntExtra(MainActivity.EXTRA_ID, 0);
+
+        String imageUrl = MainActivity.mMainList.get(id).getmImageUrl();
+        String mealName = MainActivity.mMainList.get(id).getmMealName();
+        String mealCategory = MainActivity.mMainList.get(id).getmMealCategory();
+        ArrayList<String> mealIngredients = MainActivity.mMainList.get(id).getmIngredients();
+        String time = MainActivity.mMainList.get(id).getmTime();
+        servings = MainActivity.mMainList.get(id).getmServings();
+        cal = MainActivity.mMainList.get(id).getmCal();
 
         ImageView imageview = findViewById(R.id.image_view);
         TextView textViewMealName = findViewById(R.id.text_view);

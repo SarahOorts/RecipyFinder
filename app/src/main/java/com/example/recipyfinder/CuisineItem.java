@@ -17,10 +17,8 @@ public class CuisineItem {
         for(int o = 0; o < surl.length; o++){
             String in = surl[o] + "%20";
             list.append(in);
-            Log.d("list", in);
         }
         String sterm = list.toString();
-        Log.d("sterm", sterm);
         return sterm;
     }
 }

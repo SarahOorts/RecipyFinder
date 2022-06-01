@@ -29,18 +29,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MainAdapter.OnItemClickListener {
-    public static final String EXTRA_URL = "imageUrl";
-    public static final String EXTRA_NAME = "mealName";
-    public static final String EXTRA_CATEGORY = "mealCategory";
-    public static final String EXTRA_RECIPE = "recipe";
-    public static final String EXTRA_INGREDIENTS = "ingredients";
-    public static final String EXTRA_CAL = "calories";
-    public static final String EXTRA_TIME = "time";
-    public static final String EXTRA_SERVINGS = "servings";
+    public static final String EXTRA_ID = "id";
 
     private RecyclerView mRecyclerView;
     private MainAdapter mMainAdapter;
-    private ArrayList<MainItem> mMainList;
+    public static ArrayList<MainItem> mMainList;
     private RequestQueue mRequestQueue;
     String url;
 
@@ -54,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mMainList = new ArrayList<>();
+        mRequestQueue = Volley.newRequestQueue(this);
+        mMainAdapter = new MainAdapter(MainActivity.this, mMainList);
+        mRecyclerView.setAdapter(mMainAdapter);
+        mMainAdapter.setOnItemClickListener(MainActivity.this);
         mRequestQueue = Volley.newRequestQueue(this);
 
         Intent intent = getIntent();
@@ -82,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                 if(searchterm.matches("")) {
                     searchterm = "beef";
                 }
-                Log.d("search", searchterm);
 
                 getDishes(searchterm, cuisineType, mealType, temp);
             }
@@ -138,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             url = "https://api.edamam.com/api/recipes/v2?type=public&q=" + search + "&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&cuisineType=" + cuisineType;
         } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && !isNullEmpty(degree)){
             int temp = Integer.parseInt(degree);
-            Log.d("check", String.valueOf(temp));
             if(temp < 0){
                 url = "https://api.edamam.com/api/recipes/v2?type=public&q=hot%20chocolate%20&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
             } else if(temp > 0 && temp < 5){
@@ -159,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && isNullEmpty(degree)){
             url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
         }
-        Log.d("search_url", url);
         mMainList.clear();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -192,11 +186,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
                                 mMainList.add(new MainItem(imageUrl, mealName, mealCategory, recipe, ingr, servings, cal, t));
                             }
-
-                            mMainAdapter = new MainAdapter(MainActivity.this, mMainList);
-                            mRecyclerView.setAdapter(mMainAdapter);
-                            mMainAdapter.setOnItemClickListener(MainActivity.this);
-
+                            mMainAdapter.notifyDataSetChanged();
                         } catch(JSONException e) {
                             e.printStackTrace();
                         }
@@ -215,15 +205,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
         MainItem clickedItem = mMainList.get(position);
-
-        detailIntent.putExtra(EXTRA_URL, clickedItem.getmImageUrl());
-        detailIntent.putExtra(EXTRA_NAME, clickedItem.getmMealName());
-        detailIntent.putExtra(EXTRA_CATEGORY, clickedItem.getmMealCategory());
-        detailIntent.putExtra(EXTRA_RECIPE, clickedItem.getmRecipe());
-        detailIntent.putStringArrayListExtra(EXTRA_INGREDIENTS, clickedItem.getmIngredients());
-        detailIntent.putExtra(EXTRA_CAL, clickedItem.getmCal());
-        detailIntent.putExtra(EXTRA_TIME, clickedItem.getmTime());
-        detailIntent.putExtra(EXTRA_SERVINGS, clickedItem.getmServings());
+        detailIntent.putExtra(EXTRA_ID, position);
 
         startActivity(detailIntent);
     }

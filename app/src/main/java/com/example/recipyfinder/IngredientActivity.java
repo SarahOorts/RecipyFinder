@@ -56,12 +56,9 @@ public class IngredientActivity extends AppCompatActivity {
         for(int o = 0; o < surl.length; o++){
             String in = surl[o] + "%20";
             list.append(in);
-            //Log.d("in", in);
         }
         String sterm = list.toString();
-        //Log.d("string", sterm);
         String url = "https://api.edamam.com/api/nutrition-data?app_id=16fda4d7&app_key=471a082f96537f638f441a91c539d51c&nutrition-type=cooking&ingr="+sterm;
-        //Log.d("search_url", url);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -70,8 +67,6 @@ public class IngredientActivity extends AppCompatActivity {
                         System.out.println(response);
                         try{
                             JSONObject jsonObject = response.getJSONObject("totalNutrientsKCal");
-                            //Log.d("nutr", String.valueOf(jsonObject));
-
                             JSONObject kcal = jsonObject.getJSONObject("ENERC_KCAL");
                             String nutenergy = String.format("Energy: " + kcal.getString("quantity") + " kcal");
 

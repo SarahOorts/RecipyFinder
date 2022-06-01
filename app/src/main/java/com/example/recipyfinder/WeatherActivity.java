@@ -41,8 +41,6 @@ public class WeatherActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String searchterm;
                 searchterm = searchfield.getText().toString();
-                Log.d("search", searchterm);
-
                 getWeatherbyLocation(searchterm);
             }
         });
@@ -53,7 +51,6 @@ public class WeatherActivity extends AppCompatActivity{
                 String tmp = String.valueOf(temperature.getText());
                 String[] loct = tmp.split(" ", 0);
                 String t_loc = loct[2];
-                Log.d("loc", t_loc);
 
                 Intent weatherIntent = new Intent(WeatherActivity.this, MainActivity.class);
                 weatherIntent.putExtra(EXTRA_CITY, t_loc);
@@ -64,7 +61,6 @@ public class WeatherActivity extends AppCompatActivity{
 
     private void getWeatherbyLocation(String searchterm){
         String url = "https://api.weatherapi.com/v1/current.json?key=3a06dcc047484792aa6102031211703&q=" + searchterm;
-        Log.d("url", url);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -72,11 +68,8 @@ public class WeatherActivity extends AppCompatActivity{
                     public void onResponse(JSONObject response) {
                         try{
                             JSONObject jsonObject = response.getJSONObject("current");
-                            //Log.d("obj", String.valueOf(jsonObject));
                             int temp = jsonObject.getInt("temp_c");
-                            Log.d("temp", String.valueOf(temp));
                             temperature.setText(String.format("%s %s", "Temperature: ", temp));
-                            Log.d("t", (String) temperature.getText());
                         } catch(JSONException e) {
                             e.printStackTrace();
                         }
