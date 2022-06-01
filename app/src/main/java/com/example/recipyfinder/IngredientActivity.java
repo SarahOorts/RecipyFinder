@@ -40,17 +40,8 @@ public class IngredientActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String ingredient = intent.getStringExtra(EXTRA_SERVINGSIZE);
-        Button back_btn = findViewById(R.id.btnback);
 
         getNutrition(ingredient);
-
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent backIntent = new Intent(IngredientActivity.this, DetailActivity.class);
-                startActivity(backIntent);
-            }
-        });
     }
 
     private void getNutrition(String search){

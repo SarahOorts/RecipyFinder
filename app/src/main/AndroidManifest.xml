@@ -49,6 +49,13 @@
                 <action android:name="android.intent.action.MEAL" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".WeatherActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.WEATHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

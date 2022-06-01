@@ -2,6 +2,7 @@ package com.example.recipyfinder;
 
 import static com.example.recipyfinder.CuisineActivity.EXTRA_TYPE;
 import static com.example.recipyfinder.MealActivity.EXTRA_MEAL;
+import static com.example.recipyfinder.WeatherActivity.EXTRA_CITY;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         Intent intent = getIntent();
         String cuisineType = intent.getStringExtra(EXTRA_TYPE);
         String mealType = intent.getStringExtra(EXTRA_MEAL);
+        String temp = intent.getStringExtra(EXTRA_CITY);
 
         Button mSearchbtn = findViewById(R.id.search_btn);
         EditText searchfield = findViewById(R.id.input);
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
         if(searchfield.getText().toString().matches("")){
             String beef = "beef";
-            getDishes(beef, cuisineType, mealType);
+            getDishes(beef, cuisineType, mealType, temp);
         }
 
         mSearchbtn.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                 }
                 Log.d("search", searchterm);
 
-                getDishes(searchterm, cuisineType, mealType);
+                getDishes(searchterm, cuisineType, mealType, temp);
             }
         });
 
@@ -109,6 +111,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                 startActivity(mealIntent);
             }
         });
+
+        weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent weatherIntent = new Intent(MainActivity.this, WeatherActivity.class);
+                startActivity(weatherIntent);
+            }
+        });
     }
 
     private boolean isNullEmpty(String str) {
@@ -121,12 +131,32 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         }
     }
 
-    private void getDishes(String search, String cuisineType, String mealType){
-        if(isNullEmpty(cuisineType) && !isNullEmpty(mealType)) {
+    private void getDishes(String search, String cuisineType, String mealType, String degree){
+        if(isNullEmpty(cuisineType) && !isNullEmpty(mealType) && isNullEmpty(degree)) {
             url = "https://api.edamam.com/api/recipes/v2?type=public&q=" + search + "&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&mealType=" + mealType;
-        } else if(isNullEmpty(mealType) && !isNullEmpty(cuisineType)) {
+        } else if(isNullEmpty(mealType) && !isNullEmpty(cuisineType) && isNullEmpty(degree)) {
             url = "https://api.edamam.com/api/recipes/v2?type=public&q=" + search + "&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&cuisineType=" + cuisineType;
-        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType)){
+        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && !isNullEmpty(degree)){
+            int temp = Integer.parseInt(degree);
+            Log.d("check", String.valueOf(temp));
+            if(temp < 0){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=hot%20chocolate%20&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            } else if(temp > 0 && temp < 5){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=stew&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            } else if(temp > 5 && temp < 10){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=risotto&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            } else if(temp > 10 && temp < 15){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=pasta&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            } else if(temp > 15 && temp < 20){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=sushi&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            } else if(temp > 20 && temp < 25){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=salad&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            } else if(temp > 25 && temp < 30){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=cocktail&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            } else if(temp > 30 && temp < 35){
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q=ice%20cream%20&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            }
+        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && isNullEmpty(degree)){
             url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
         }
         Log.d("search_url", url);

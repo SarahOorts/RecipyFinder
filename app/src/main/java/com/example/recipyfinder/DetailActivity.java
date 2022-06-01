@@ -119,7 +119,7 @@ public class DetailActivity extends AppCompatActivity{
 
                 for (int i = 0; i< recept_array.size(); i++) {
                     Ingredient ingredients = recept_array.get(i);
-                    String in = ingredients.getquantity(amount_of_people) + ", ";
+                    String in = ingredients.getquantity(amount_of_people) + ", \n";
                     list.append(in);
                 }
                 shareIntent.putExtra(Intent.EXTRA_TEXT, list.toString());

@@ -39,7 +39,9 @@ public class Ingredient {
 
     public static String getCalories(String calories, String servings, int amount_of_people){
         double calo = Double.parseDouble(calories)/ Double.parseDouble(servings);
+        Log.d("calo", String.valueOf(calo));
         double cal = calo * (double) amount_of_people;
+        Log.d("cal", String.valueOf(cal));
         return String.format("%s %,.2f", "Calories: ", cal);
     }
 }
