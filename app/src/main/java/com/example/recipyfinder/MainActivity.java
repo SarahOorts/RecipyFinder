@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             public void onClick(View v) {
                 String searchterm;
                 searchterm = searchfield.getText().toString();
-                /*if(searchterm.matches("")) {
-                    searchterm = "orange";
-                }*/
                 getDishes(searchterm, cuisineType, mealType, temp);
             }
         });
