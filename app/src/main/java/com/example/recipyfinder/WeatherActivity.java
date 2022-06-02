@@ -32,9 +32,13 @@ public class WeatherActivity extends AppCompatActivity{
         WeatherQueue = Volley.newRequestQueue(this);
 
         Button mSearchbtn = findViewById(R.id.search_btn);
-        Button weather = findViewById(R.id.getweather_btn);
+        Button inspo = findViewById(R.id.getweather_btn);
         EditText searchfield = findViewById(R.id.input);
         temperature = findViewById(R.id.text_view_temperature);
+        Button cuisine = findViewById(R.id.cuisine_btn);
+        Button searchAll = findViewById(R.id.searchall_btn);
+        Button weather = findViewById(R.id.weather_btn);
+        Button mealtype = findViewById(R.id.meal_btn);
 
         mSearchbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +49,7 @@ public class WeatherActivity extends AppCompatActivity{
             }
         });
 
-        weather.setOnClickListener(new View.OnClickListener() {
+        inspo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tmp = String.valueOf(temperature.getText());
@@ -54,6 +58,38 @@ public class WeatherActivity extends AppCompatActivity{
 
                 Intent weatherIntent = new Intent(WeatherActivity.this, MainActivity.class);
                 weatherIntent.putExtra(EXTRA_CITY, t_loc);
+                startActivity(weatherIntent);
+            }
+        });
+
+        cuisine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cuisineIntent = new Intent(WeatherActivity.this, CuisineActivity.class);
+                startActivity(cuisineIntent);
+            }
+        });
+
+        searchAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(WeatherActivity.this, MainActivity.class);
+                startActivity(searchIntent);
+            }
+        });
+
+        mealtype.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mealIntent = new Intent(WeatherActivity.this, MealActivity.class);
+                startActivity(mealIntent);
+            }
+        });
+
+        weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent weatherIntent = new Intent(WeatherActivity.this, WeatherActivity.class);
                 startActivity(weatherIntent);
             }
         });

@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity{

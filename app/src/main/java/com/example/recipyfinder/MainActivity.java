@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
     public static ArrayList<MainItem> mMainList;
     private RequestQueue mRequestQueue;
     String url;
+    String href;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +65,12 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         Button searchAll = findViewById(R.id.searchall_btn);
         Button weather = findViewById(R.id.weather_btn);
         Button mealtype = findViewById(R.id.meal_btn);
+        Button nxt = findViewById(R.id.next_btn);
 
 
         if(searchfield.getText().toString().matches("")){
-            String beef = "beef";
-            getDishes(beef, cuisineType, mealType, temp);
+            String orange = "orange";
+            getDishes(orange, cuisineType, mealType, temp);
         }
 
         mSearchbtn.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +78,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             public void onClick(View v) {
                 String searchterm;
                 searchterm = searchfield.getText().toString();
-                if(searchterm.matches("")) {
-                    searchterm = "beef";
-                }
-
+                /*if(searchterm.matches("")) {
+                    searchterm = "orange";
+                }*/
                 getDishes(searchterm, cuisineType, mealType, temp);
             }
         });
@@ -113,6 +114,13 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             public void onClick(View v) {
                 Intent weatherIntent = new Intent(MainActivity.this, WeatherActivity.class);
                 startActivity(weatherIntent);
+            }
+        });
+
+        nxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDishes(href, cuisineType, mealType, temp);
             }
         });
     }
@@ -152,7 +160,11 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                 url = "https://api.edamam.com/api/recipes/v2?type=public&q=ice%20cream%20&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
             }
         } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && isNullEmpty(degree)){
-            url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            if(search.contains("https")){
+                url = search;
+            } else{
+                url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
+            }
         }
         mMainList.clear();
 
@@ -183,6 +195,10 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                                 int mealId = 0;
                                 String recipe = meal.getString("url");
                                 String servings = meal.getString("yield");
+
+                                JSONObject links = response.getJSONObject("_links");
+                                JSONObject next = links.getJSONObject("next");
+                                href = next.getString("href");
 
                                 mMainList.add(new MainItem(imageUrl, mealName, mealCategory, recipe, ingr, servings, cal, t));
                             }
