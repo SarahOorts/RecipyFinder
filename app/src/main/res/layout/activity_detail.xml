@@ -75,6 +75,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:backgroundTint="#60EDB0"
             android:text="Share ingredients" />
 
         <TextView
@@ -107,8 +108,9 @@
                 android:id="@+id/btnplus"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#60EDB0"
                 android:text="+" />
 
             <Button
@@ -117,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:backgroundTint="#60EDB0"
                 android:text="-" />
         </LinearLayout>
     </LinearLayout>
