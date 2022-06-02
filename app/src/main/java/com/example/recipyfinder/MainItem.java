@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class MainItem {
+    //initialiseer alle variabele die behoren tot een mainitem
     private String mImageUrl;
     private String mMealName;
     private String mMealCategory;

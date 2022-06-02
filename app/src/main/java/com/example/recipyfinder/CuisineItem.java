@@ -3,6 +3,7 @@ package com.example.recipyfinder;
 import android.util.Log;
 
 public class CuisineItem {
+    //initialiseer alle variabele die behoren tot een mainitem
     private String cType;
 
     public CuisineItem(String type){
@@ -11,6 +12,7 @@ public class CuisineItem {
 
     public String getcType() {return cType;}
 
+    //deel string op om spatie te vervangen door %20 en terug samen te plakken
     public String getType(){
         String[] surl = cType.split(" ", 0);
         StringBuilder list = new StringBuilder();

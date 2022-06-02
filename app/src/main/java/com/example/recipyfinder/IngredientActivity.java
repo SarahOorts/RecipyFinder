@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class IngredientActivity extends AppCompatActivity {
+    //initialiseer variabele
     TextView nutrition;
     TextView energy;
     TextView protein;
@@ -34,23 +35,32 @@ public class IngredientActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        //initialiseer content van de parent
         super.onCreate(savedInstanceState);
+        //initialiseer layout
         setContentView(R.layout.activity_ingredient);
+
+        //zet volley element klaar
         IngredientQueue = Volley.newRequestQueue(this);
 
+        //vraag data op vanuit een intent
         Intent intent = getIntent();
         String ingredient = intent.getStringExtra(EXTRA_SERVINGSIZE);
 
+        //voer functie uit
         getNutrition(ingredient);
     }
 
+    //vraagt data op over nutritionele waarde ingredient
     private void getNutrition(String search){
+        //initialiseer layout
         TextView nutrition = findViewById(R.id.text_view_nutrition);
         TextView energy = findViewById(R.id.text_view_energy);
         TextView protein = findViewById(R.id.text_view_protein);
         TextView fat = findViewById(R.id.text_view_fat);
         TextView carbo = findViewById(R.id.text_view_carbohydrates);
 
+        //deel string op om spatie te vervangen door %20 en terug samen te plakken
         String[] surl = search.split(" ", 0);
         StringBuilder list = new StringBuilder();
         for(int o = 0; o < surl.length; o++){
@@ -60,6 +70,7 @@ public class IngredientActivity extends AppCompatActivity {
         String sterm = list.toString();
         String url = "https://api.edamam.com/api/nutrition-data?app_id=16fda4d7&app_key=471a082f96537f638f441a91c539d51c&nutrition-type=cooking&ingr="+sterm;
 
+        //api call (1 = methode, 2 = url, 3 = request, 4 = success, 5 =  error)
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -79,6 +90,7 @@ public class IngredientActivity extends AppCompatActivity {
                             JSONObject carbohyd = jsonObject.getJSONObject("CHOCDF_KCAL");
                             String nutcarbo = String.format("Carbohydrates: " + carbohyd.getString("quantity") + " kcal");
 
+                            //voeg opgevraagde data toe aan layout
                             nutrition.setText(search);
                             energy.setText(nutenergy);
                             protein.setText(nutprotein);

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CuisineActivity extends AppCompatActivity implements CuisineAdapter.OnItemClickListener{
+    //initialiseer recyclerview, view adapter en extra variabele
     private RecyclerView cRecyclerView;
     private CuisineAdapter cCuisineAdapter;
     private ArrayList<CuisineItem> cCuisineList;
@@ -18,13 +19,17 @@ public class CuisineActivity extends AppCompatActivity implements CuisineAdapter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //initialiseer content van de parent
         super.onCreate(savedInstanceState);
+        //initialiseer layout
         setContentView(R.layout.activity_cuisine);
 
+        //voeg layout element toe aan de recyclerview
         cRecyclerView = findViewById(R.id.recycler_view);
         cRecyclerView.setHasFixedSize(true);
         cRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //maak nieuwe lijst aan en voeg items toe aan de lijst
         cCuisineList = new ArrayList<>();
         cCuisineList.add(new CuisineItem("American"));
         cCuisineList.add(new CuisineItem("Asian"));
@@ -45,11 +50,13 @@ public class CuisineActivity extends AppCompatActivity implements CuisineAdapter
         cCuisineList.add(new CuisineItem("South American"));
         cCuisineList.add(new CuisineItem("South East Asian"));
 
+        //voeg adapter toe aan de layout en initialiseer een onclick
         cCuisineAdapter = new CuisineAdapter(CuisineActivity.this, cCuisineList);
         cRecyclerView.setAdapter(cCuisineAdapter);
         cCuisineAdapter.setOnItemClickListener(CuisineActivity.this);
     }
 
+    //bij klik stuur door naar andere activity
     @Override
     public void onItemClick(int position) {
         Intent cuisineIntent = new Intent(CuisineActivity.this, MainActivity.class);
