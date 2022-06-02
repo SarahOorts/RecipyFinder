@@ -15,10 +15,12 @@ public class Ingredient {
         this.servings = servings;
     }
 
+    //checkt hoeveelheid van ingredienten per serving
     public String getquantity(int amount_of_people) {
         double serving = Double.parseDouble(servings);
         double amount = Double.parseDouble(quantity);
         if(quantity.equals("0") || quantity.equals("null")){
+            //indien hoeveelheid altijd 0 is, verander hoeveelheid tot eigen keuze
             return String.format("%s %s %s", "To taste", getMeasure(), getFood());
         } else {
             double total1 = amount / serving;
@@ -27,7 +29,9 @@ public class Ingredient {
         }
     }
 
+    //check welke meeteenheid wordt gebruikt
     public String getMeasure() {
+        //is eenheid niet gekend of een stuk, laat leeg
         if(measure.equals("<unit>") || measure.equals("null")){
             return "";
         } else{
@@ -39,6 +43,7 @@ public class Ingredient {
         return this.food;
     }
 
+    //checkt aantal caloriën per serving
     public static String getCalories(String calories, String servings, int amount_of_people){
         double calo = Double.parseDouble(calories)/ Double.parseDouble(servings);
         double cal = calo * (double) amount_of_people;

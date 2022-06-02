@@ -18,7 +18,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity{
+    //initialiseer public static string om data via intent door te geven
     public static final String EXTRA_SERVINGSIZE = "servingsize";
+
+    //initialiseer variabele
     TextView textViewMealServings;
     TextView textViewcal;
     ArrayList<Ingredient> recept_array = new ArrayList<>();
@@ -30,12 +33,16 @@ public class DetailActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        //initialiseer content van de parent
         super.onCreate(savedInstanceState);
+        //initialiseer layout
         setContentView(R.layout.activity_detail);
 
+        //vraag data op vanuit een intent
         Intent intent = getIntent();
         int id = intent.getIntExtra(MainActivity.EXTRA_ID, 0);
 
+        //voeg data van intent toe aan variabele via public variabele
         String imageUrl = MainActivity.mMainList.get(id).getmImageUrl();
         String mealName = MainActivity.mMainList.get(id).getmMealName();
         String mealCategory = MainActivity.mMainList.get(id).getmMealCategory();
@@ -44,6 +51,7 @@ public class DetailActivity extends AppCompatActivity{
         servings = MainActivity.mMainList.get(id).getmServings();
         cal = MainActivity.mMainList.get(id).getmCal();
 
+        //link buttons en textviews aan layout
         ImageView imageview = findViewById(R.id.image_view);
         TextView textViewMealName = findViewById(R.id.text_view);
         TextView textViewMealCategory = findViewById(R.id.text_view_category);
@@ -56,6 +64,7 @@ public class DetailActivity extends AppCompatActivity{
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.rootlayout);
 
+        //voeg variabele toe aan layout
         Picasso.get().load(imageUrl).fit().centerInside().into(imageview);
         textViewMealName.setText(mealName);
         textViewMealCategory.setText("Meal category: " + mealCategory);
@@ -63,6 +72,7 @@ public class DetailActivity extends AppCompatActivity{
         textViewt.setText("Time: " + time);
         textViewcal.setText(Ingredient.getCalories(cal, servings, amount_of_people));
 
+        //voeg ingredienten vanuit JSONArray toe aan Ingredient class
         for(int o = 0; o < mealIngredients.size(); o++){
             String ingr = null;
             try {
@@ -77,6 +87,7 @@ public class DetailActivity extends AppCompatActivity{
             }
         }
 
+        //voeg nieuwe textview toe voor het aantal ingrediënten
         for(int i = 0; i < recept_array.size(); i++){
             TextView tv = new TextView(this);
             layout.addView(tv, i);
@@ -84,8 +95,10 @@ public class DetailActivity extends AppCompatActivity{
             final Ingredient current_ingredient = recept_array.get(i);
         }
 
+        //update user interface
         update_ui();
 
+        //voeg meer personen toe aan recept
         plus_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -94,6 +107,7 @@ public class DetailActivity extends AppCompatActivity{
             }
         });
 
+        //verminder personen voor het recept
         min_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -103,6 +117,7 @@ public class DetailActivity extends AppCompatActivity{
             }
         });
 
+        //deel ingredienten via intent
         share_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -126,12 +141,14 @@ public class DetailActivity extends AppCompatActivity{
         textViewMealServings.setText(persons);
         textViewcal.setText(Ingredient.getCalories(cal, servings, amount_of_people));
 
+        //verander hoeveelheid ingredienten naar juiste hoeveelheid en voeg dan toe aan de layout
         for (int i = 0; i< recept_array.size(); i++) {
             tv = tv_array.get(i);
             Ingredient ing = recept_array.get(i);
             tv.setText(ing.getquantity(amount_of_people));
             String servingsize = ing.getquantity(amount_of_people);
             tv_array.get(i).setOnClickListener(new View.OnClickListener() {
+                //bij klik verplaats naar andere activity
                 @Override
                 public void onClick(View v) {
                     Intent ingredientIntent = new Intent(DetailActivity.this, IngredientActivity.class);

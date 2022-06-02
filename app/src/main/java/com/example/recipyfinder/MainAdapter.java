@@ -32,15 +32,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         mMainList = mainList;
     }
 
+    //maakt nieuwe views aan
     @NonNull
     @Override
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //voeg layout toe aan views
         View v = LayoutInflater.from(mContext).inflate(R.layout.main_item, parent, false);
         return new MainViewHolder(v);
     }
 
+    //recycleert bestaande views
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
+        //voegt data toe aan de views
         MainItem currentItem = mMainList.get(position);
 
         String imageUrl = currentItem.getmImageUrl();
@@ -68,6 +72,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             mTextViewMealName = itemView.findViewById(R.id.text_view);
             mTextViewMealCategory = itemView.findViewById(R.id.text_view_category);
 
+            //haalt positie op van het geklikte item
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -30,17 +30,20 @@ public class CuisineAdapter extends RecyclerView.Adapter<CuisineAdapter.CuisineV
         cCuisineList = cuisineList;
     }
 
+    //maakt nieuwe views aan
     @NonNull
     @Override
     public CuisineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //voeg layout toe aan views
         View v = LayoutInflater.from(cContext).inflate(R.layout.cuisine_item, parent, false);
         return new CuisineViewHolder(v);
     }
 
+    //recycleert bestaande views
     @Override
     public void onBindViewHolder(@NonNull CuisineAdapter.CuisineViewHolder holder, int position) {
+        //voegt data toe aan de views
         CuisineItem currentItem = cCuisineList.get(position);
-
         String cType = currentItem.getcType();
         holder.cTextViewCuisine.setText(cType);
     }
@@ -57,6 +60,7 @@ public class CuisineAdapter extends RecyclerView.Adapter<CuisineAdapter.CuisineV
             super(itemView);
             cTextViewCuisine = itemView.findViewById(R.id.cuisine_view);
 
+            //haalt positie op van het geklikte item
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

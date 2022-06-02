@@ -28,10 +28,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MainAdapter.OnItemClickListener {
+    //initialiseer public static string om data via intent door te geven
     public static final String EXTRA_ID = "id";
 
+    //initialiseer recyclerview, view adapter, volley requestqueue en extra variabele
     private RecyclerView mRecyclerView;
     private MainAdapter mMainAdapter;
+    //arraylist is public static om makkelijk mee te geven in de intent
     public static ArrayList<MainItem> mMainList;
     private RequestQueue mRequestQueue;
     String url;
@@ -39,13 +42,17 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //initialiseer content van de parent
         super.onCreate(savedInstanceState);
+        //initialiseer layout
         setContentView(R.layout.activity_main);
 
+        //voeg layout element toe aan de recyclerview
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //zet recyclerview en volley elementen klaar
         mMainList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(this);
         mMainAdapter = new MainAdapter(MainActivity.this, mMainList);
@@ -53,11 +60,13 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         mMainAdapter.setOnItemClickListener(MainActivity.this);
         mRequestQueue = Volley.newRequestQueue(this);
 
+        //vraag data op vanuit een intent
         Intent intent = getIntent();
         String cuisineType = intent.getStringExtra(EXTRA_TYPE);
         String mealType = intent.getStringExtra(EXTRA_MEAL);
         String temp = intent.getStringExtra(EXTRA_CITY);
 
+        //link buttons en edittext aan layout
         Button mSearchbtn = findViewById(R.id.search_btn);
         EditText searchfield = findViewById(R.id.input);
         Button cuisine = findViewById(R.id.cuisine_btn);
@@ -66,12 +75,13 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         Button mealtype = findViewById(R.id.meal_btn);
         Button nxt = findViewById(R.id.next_btn);
 
-
+        //stel start api call in als search leeg is
         if(searchfield.getText().toString().matches("")){
             String orange = "orange";
             getDishes(orange, cuisineType, mealType, temp);
         }
 
+        //bij klik vraag nieuwe search op
         mSearchbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             }
         });
 
+        //bij klik verplaats naar andere activity
         cuisine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             }
         });
 
+        //bij klik verplaats naar andere activity
         searchAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             }
         });
 
+        //bij klik verplaats naar andere activity
         mealtype.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             }
         });
 
+        //bij klik verplaats naar andere activity
         weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             }
         });
 
+        //bij klik vraag nieuwe data op van dezelfde search
         nxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         });
     }
 
+    //check of strings leeg zijn
     private boolean isNullEmpty(String str) {
         if(str == null){
             return true;
@@ -131,12 +147,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         }
     }
 
+    //functie om api data op te vragen
     private void getDishes(String search, String cuisineType, String mealType, String degree){
+        //zoeken bij mealtype
         if(isNullEmpty(cuisineType) && !isNullEmpty(mealType) && isNullEmpty(degree)) {
             url = "https://api.edamam.com/api/recipes/v2?type=public&q=" + search + "&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&mealType=" + mealType;
-        } else if(isNullEmpty(mealType) && !isNullEmpty(cuisineType) && isNullEmpty(degree)) {
+        } else if(isNullEmpty(mealType) && !isNullEmpty(cuisineType) && isNullEmpty(degree)) { //zoeken bij cuisinetype
             url = "https://api.edamam.com/api/recipes/v2?type=public&q=" + search + "&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2&cuisineType=" + cuisineType;
-        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && !isNullEmpty(degree)){
+        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && !isNullEmpty(degree)){ //zoeken bij temperatuur
             int temp = Integer.parseInt(degree);
             if(temp < 0){
                 url = "https://api.edamam.com/api/recipes/v2?type=public&q=hot%20chocolate%20&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
@@ -155,15 +173,17 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
             } else if(temp > 30 && temp < 35){
                 url = "https://api.edamam.com/api/recipes/v2?type=public&q=ice%20cream%20&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
             }
-        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && isNullEmpty(degree)){
-            if(search.contains("https")){
+        } else if(isNullEmpty(mealType) && isNullEmpty(cuisineType) && isNullEmpty(degree)){ //zoeken bij zoekbalk term
+            if(search.contains("https")){ //volgende pagina zoekbalk term
                 url = search;
             } else{
                 url = "https://api.edamam.com/api/recipes/v2?type=public&q="+search+"&app_id=ac2b3ec2&app_key=6e4584b709c2b12eaa126c832cd800a2";
             }
         }
+        //maakt recyclerview leeg vooraleer nieuwe data in te stoppen
         mMainList.clear();
 
+        //api call (1 = methode, 2 = url, 3 = request, 4 = success, 5 =  error)
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -171,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                         try{
                             JSONArray jsonArray = response.getJSONArray("hits");
 
+                            //loop door de verschillende recepten
                             for(int i = 0; i < jsonArray.length(); i++){
                                 JSONObject mealhit = jsonArray.getJSONObject(i);
                                 JSONObject meal = mealhit.getJSONObject("recipe");
@@ -181,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
 
                                 JSONArray mealIngredients = meal.getJSONArray("ingredients");
                                 ArrayList<String> ingr = new ArrayList<>();
+                                //loop door de verschillende ingrediënten
                                 for(int o = 0; o < mealIngredients.length(); o++){
                                     String ingrs = mealIngredients.getString(o);
                                     ingr.add(ingrs);
@@ -192,12 +214,15 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
                                 String recipe = meal.getString("url");
                                 String servings = meal.getString("yield");
 
+                                //api link voor volgende 20 recepten
                                 JSONObject links = response.getJSONObject("_links");
                                 JSONObject next = links.getJSONObject("next");
                                 href = next.getString("href");
 
+                                //voeg opgevraagde data toe aan de lijst
                                 mMainList.add(new MainItem(imageUrl, mealName, mealCategory, recipe, ingr, servings, cal, t));
                             }
+                            //laat de recyclerview adapter weten of data is veranderd en de pagina herladen moet worden
                             mMainAdapter.notifyDataSetChanged();
                         } catch(JSONException e) {
                             e.printStackTrace();
@@ -213,12 +238,13 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnIte
         mRequestQueue.add(request);
     }
 
+    //bij klik stuurt naar detail van recept
     @Override
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
         MainItem clickedItem = mMainList.get(position);
+        //geeft positie in de lijst weer
         detailIntent.putExtra(EXTRA_ID, position);
-
         startActivity(detailIntent);
     }
 }
