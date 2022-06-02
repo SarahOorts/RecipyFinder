@@ -18,7 +18,6 @@ public class Ingredient {
     public String getquantity(int amount_of_people) {
         double serving = Double.parseDouble(servings);
         double amount = Double.parseDouble(quantity);
-        Log.d("q", quantity);
         if(quantity.equals("0") || quantity.equals("null")){
             return String.format("%s %s %s", "To taste", getMeasure(), getFood());
         } else {
